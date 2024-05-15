@@ -1,0 +1,94 @@
+.calendario-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.titulo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.calendario {
+  display: flex;
+}
+
+.horarios {
+  display: flex;
+  flex-direction: column;
+}
+
+.hora {
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: right;
+}
+
+.dia-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.dia {
+  padding: 10px;
+  border-right: 1px solid #e0e0e0;
+  text-align: center;
+  font-weight: bold;
+}
+
+.horario-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.horario {
+  border-top: 1px solid #e0e0e0;
+  position: relative;
+  overflow-y: auto;
+}
+
+.monitoria {
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.monitoria:hover {
+  background-color: #f5f5f5;
+}
+
+.materia {
+  font-weight: bold;
+}
+
+.horario {
+  margin-bottom: 5px;
+}
+
+/* Añadir las siguientes reglas */
+.calendario {
+  border-collapse: collapse;
+}
+
+.dia-column {
+  flex: 1;
+}
+
+.horarios {
+  width: 70px; /* Ajustar según sea necesario */
+}
+
+.hora {
+  width: 100%;
+}
+
+.horario-column {
+  flex: 1;
+}
+
+.monitoria {
+  width: 100%;
+}
