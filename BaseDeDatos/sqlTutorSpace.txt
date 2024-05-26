@@ -1,0 +1,118 @@
+-- Tabla País
+CREATE TABLE Pais (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
+);
+
+-- Tabla Departamento
+CREATE TABLE Departamento (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    pais_id INT,
+    FOREIGN KEY (pais_id) REFERENCES Pais(id)
+);
+
+-- Tabla Ciudad
+CREATE TABLE Ciudad (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    departamento_id INT,
+    FOREIGN KEY (departamento_id) REFERENCES Departamento(id)
+);
+
+-- Tabla TipoDocumento
+CREATE TABLE TipoDocumento (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
+);
+
+-- Tabla Institucion
+CREATE TABLE Institucion (
+    id SERIAL PRIMARY KEY,
+    tipo_documento_id INT,
+    numero_documento VARCHAR(50) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    FOREIGN KEY (tipo_documento_id) REFERENCES TipoDocumento(id)
+);
+
+-- Tabla TipoSucursal
+CREATE TABLE TipoSucursal (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
+);
+
+-- Tabla SucursalInstitucion
+CREATE TABLE SucursalInstitucion (
+    id SERIAL PRIMARY KEY,
+    nombre_sucursal VARCHAR(100) NOT NULL,
+    tipo_sucursal_id INT,
+    ciudad_id INT,
+    direccion VARCHAR(255) NOT NULL,
+    contacto VARCHAR(100),
+    institucion_id INT,
+    FOREIGN KEY (tipo_sucursal_id) REFERENCES TipoSucursal(id),
+    FOREIGN KEY (ciudad_id) REFERENCES Ciudad(id),
+    FOREIGN KEY (institucion_id) REFERENCES Institucion(id)
+);
+
+-- Tabla LugarTutoria
+CREATE TABLE LugarTutoria (
+    id SERIAL PRIMARY KEY,
+    sucursal_institucion_id INT,
+    nombre VARCHAR(100) NOT NULL,
+    cantidad_estudiantes INT NOT NULL,
+    FOREIGN KEY (sucursal_institucion_id) REFERENCES SucursalInstitucion(id)
+);
+
+-- Insertar países
+INSERT INTO Pais (nombre) VALUES ('Colombia');
+
+-- Insertar departamentos
+INSERT INTO Departamento (nombre, pais_id) VALUES ('Antioquia', 1);
+INSERT INTO Departamento (nombre, pais_id) VALUES ('Cundinamarca', 1);
+INSERT INTO Departamento (nombre, pais_id) VALUES ('Valle del Cauca', 1);
+
+-- Insertar ciudades en el departamento de Antioquia
+INSERT INTO Ciudad (nombre, departamento_id) VALUES ('Medellín', 1);
+INSERT INTO Ciudad (nombre, departamento_id) VALUES ('Envigado', 1);
+INSERT INTO Ciudad (nombre, departamento_id) VALUES ('Bello', 1);
+
+-- Insertar ciudades en otros departamentos
+INSERT INTO Ciudad (nombre, departamento_id) VALUES ('Bogotá', 2);
+INSERT INTO Ciudad (nombre, departamento_id) VALUES ('Cali', 3);
+
+-- Insertar tipos de documento
+INSERT INTO TipoDocumento (nombre) VALUES ('Nit');
+INSERT INTO TipoDocumento (nombre) VALUES ('Codigo DANE');
+INSERT INTO TipoDocumento (nombre) VALUES ('Cedula');
+INSERT INTO TipoDocumento (nombre) VALUES ('Tarjeta de identidad');
+INSERT INTO TipoDocumento (nombre) VALUES ('Cedula de Extranjería');
+
+-- Insertar instituciones
+INSERT INTO Institucion (tipo_documento_id, numero_documento, nombre) VALUES (1, '900123456-7', 'Universidad de Antioquia');
+INSERT INTO Institucion (tipo_documento_id, numero_documento, nombre) VALUES (2, '123456789', 'Instituto Nacional de Salud');
+INSERT INTO Institucion (tipo_documento_id, numero_documento, nombre) VALUES (3, '1012345678', 'Universidad Nacional');
+INSERT INTO Institucion (tipo_documento_id, numero_documento, nombre) VALUES (4, '1122334455', 'Instituto Colombiano de Bienestar Familiar');
+INSERT INTO Institucion (tipo_documento_id, numero_documento, nombre) VALUES (5, '9988776655', 'Corporación Universitaria Minuto de Dios');
+
+-- Insertar tipos de sucursal
+INSERT INTO TipoSucursal (nombre) VALUES ('Sede Principal');
+INSERT INTO TipoSucursal (nombre) VALUES ('Sede Auxiliar');
+
+-- Insertar sucursales de instituciones
+INSERT INTO SucursalInstitucion (nombre_sucursal, tipo_sucursal_id, ciudad_id, direccion, contacto, institucion_id) VALUES ('Sede Principal UdeA', 1, 1, 'Calle 67 #53-108', 'contacto@udea.edu.co', 1);
+INSERT INTO SucursalInstitucion (nombre_sucursal, tipo_sucursal_id, ciudad_id, direccion, contacto, institucion_id) VALUES ('Sede Auxiliar UdeA', 2, 2, 'Carrera 48 #14 Sur-100', 'envigado@udea.edu.co', 1);
+INSERT INTO SucursalInstitucion (nombre_sucursal, tipo_sucursal_id, ciudad_id, direccion, contacto, institucion_id) VALUES ('Sede Principal INS', 1, 4, 'Carrera 50 #26-20', 'contacto@ins.gov.co', 2);
+INSERT INTO SucursalInstitucion (nombre_sucursal, tipo_sucursal_id, ciudad_id, direccion, contacto, institucion_id) VALUES ('Sede Principal UNAL', 1, 4, 'Carrera 30 #45-03', 'contacto@unal.edu.co', 3);
+INSERT INTO SucursalInstitucion (nombre_sucursal, tipo_sucursal_id, ciudad_id, direccion, contacto, institucion_id) VALUES ('Sede Principal ICBF', 1, 1, 'Calle 62 #5-85', 'contacto@icbf.gov.co', 4);
+INSERT INTO SucursalInstitucion (nombre_sucursal, tipo_sucursal_id, ciudad_id, direccion, contacto, institucion_id) VALUES ('Sede Principal Uniminuto', 1, 5, 'Carrera 73A #81B-70', 'contacto@uniminuto.edu', 5);
+
+-- Insertar lugares de tutoría
+INSERT INTO LugarTutoria (sucursal_institucion_id, nombre, cantidad_estudiantes) VALUES (1, 'Salón D1', 30);
+INSERT INTO LugarTutoria (sucursal_institucion_id, nombre, cantidad_estudiantes) VALUES (1, 'Salón D2', 20);
+INSERT INTO LugarTutoria (sucursal_institucion_id, nombre, cantidad_estudiantes) VALUES (1, 'Salón D3', 30);
+INSERT INTO LugarTutoria (sucursal_institucion_id, nombre, cantidad_estudiantes) VALUES (2, 'Salón E1', 25);
+INSERT INTO LugarTutoria (sucursal_institucion_id, nombre, cantidad_estudiantes) VALUES (3, 'Salón F1', 35);
+INSERT INTO LugarTutoria (sucursal_institucion_id, nombre, cantidad_estudiantes) VALUES (4, 'Salón G1', 40);
+INSERT INTO LugarTutoria (sucursal_institucion_id, nombre, cantidad_estudiantes) VALUES (5, 'Salón H1', 20);
+INSERT INTO LugarTutoria (sucursal_institucion_id, nombre, cantidad_estudiantes) VALUES (6, 'Salón I1', 30);
