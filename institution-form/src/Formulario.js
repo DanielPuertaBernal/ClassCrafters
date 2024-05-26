@@ -18,7 +18,7 @@ const InstitutionForm = () => {
   const [documentNumber, setDocumentNumber] = useState('');
   const [name, setName] = useState('');
   const [branches, setBranches] = useState([]);
-  
+
   const addBranch = () => {
     setBranches([...branches, { name: '', type: '', country: '', department: '', city: '', address: '', contactNumber: '', tutorials: [] }]);
   };
@@ -47,7 +47,7 @@ const InstitutionForm = () => {
         
         <h2>Sucursales</h2>
         {branches.map((branch, index) => (
-          <BranchForm key={index} branch={branch} setBranches={setBranches} branchIndex={index} countries={countries} />
+          <BranchForm key={index} branches={branches} setBranches={setBranches} branchIndex={index} countries={countries} />
         ))}
         <button type="button" onClick={addBranch}>Agregar Sucursal</button>
         
@@ -59,15 +59,17 @@ const InstitutionForm = () => {
   );
 };
 
-const BranchForm = ({ branch, setBranches, branchIndex, countries }) => {
+const BranchForm = ({ branches, setBranches, branchIndex, countries }) => {
+  const branch = branches[branchIndex];
+
   const updateBranchField = (field, value) => {
-    const newBranches = [];
+    const newBranches = [...branches];
     newBranches[branchIndex][field] = value;
     setBranches(newBranches);
   };
 
   const updateTutorials = (tutorials) => {
-    const newBranches = [];
+    const newBranches = [...branches];
     newBranches[branchIndex].tutorials = tutorials;
     setBranches(newBranches);
   };
