@@ -1,5 +1,4 @@
 // validations.js
-
 export const validateDocumentType = (documentType) => {
     return documentType ? '' : 'Tipo de documento es requerido';
   };
